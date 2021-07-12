@@ -7,7 +7,7 @@
         public long ProdutoId { get; set; }
         public int Quantidade { get; set; }
         public decimal Valor { get; set; }
-        public Pedido Pedidos { get; set; }
+        public Pedido Pedido { get; set; }
         public Produto Produtos { get; set; }
     }
 }

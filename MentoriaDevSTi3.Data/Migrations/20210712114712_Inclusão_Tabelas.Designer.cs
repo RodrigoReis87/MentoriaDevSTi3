@@ -3,14 +3,16 @@ using System;
 using MentoriaDevSTi3.data.Context;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace MentoriaDevSTi3.Data.Migrations
 {
     [DbContext(typeof(MentoriaDevSTi3Context))]
-    partial class MentoriaDevSTi3ContextModelSnapshot : ModelSnapshot
+    [Migration("20210712114712_Inclusão_Tabelas")]
+    partial class Inclusão_Tabelas
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder

@@ -3,14 +3,16 @@ using System;
 using MentoriaDevSTi3.data.Context;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace MentoriaDevSTi3.Data.Migrations
 {
     [DbContext(typeof(MentoriaDevSTi3Context))]
-    partial class MentoriaDevSTi3ContextModelSnapshot : ModelSnapshot
+    [Migration("20210710122227_Adicionar_Cliente")]
+    partial class Adicionar_Cliente
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -66,7 +68,7 @@ namespace MentoriaDevSTi3.Data.Migrations
                         .HasColumnType("int");
 
                     b.Property<decimal>("Valor")
-                        .HasColumnType("decimal(15,2)");
+                        .HasColumnType("decimal(18, 2)");
 
                     b.HasKey("Id");
 
@@ -87,11 +89,10 @@ namespace MentoriaDevSTi3.Data.Migrations
                         .HasColumnType("bigint");
 
                     b.Property<string>("FormaPagamento")
-                        .IsRequired()
-                        .HasColumnType("varchar(100");
+                        .HasColumnType("text");
 
                     b.Property<decimal>("Valor")
-                        .HasColumnType("varchar(250");
+                        .HasColumnType("decimal(18, 2)");
 
                     b.HasKey("Id");
 
@@ -107,11 +108,10 @@ namespace MentoriaDevSTi3.Data.Migrations
                         .HasColumnType("bigint");
 
                     b.Property<string>("Nome")
-                        .IsRequired()
-                        .HasColumnType("varchar(250)");
+                        .HasColumnType("text");
 
                     b.Property<decimal>("Valor")
-                        .HasColumnType("decimal(15,2)");
+                        .HasColumnType("decimal(18, 2)");
 
                     b.HasKey("Id");
 
@@ -120,7 +120,7 @@ namespace MentoriaDevSTi3.Data.Migrations
 
             modelBuilder.Entity("MentoriaDevSTi3.data.Entidades.ItemPedido", b =>
                 {
-                    b.HasOne("MentoriaDevSTi3.data.Entidades.Pedido", "Pedido")
+                    b.HasOne("MentoriaDevSTi3.data.Entidades.Pedido", "Pedidos")
                         .WithMany("ItensPedido")
                         .HasForeignKey("PedidoId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -132,7 +132,7 @@ namespace MentoriaDevSTi3.Data.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.Navigation("Pedido");
+                    b.Navigation("Pedidos");
 
                     b.Navigation("Produtos");
                 });
