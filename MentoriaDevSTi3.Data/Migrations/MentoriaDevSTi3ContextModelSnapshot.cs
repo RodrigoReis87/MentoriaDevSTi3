@@ -15,7 +15,7 @@ namespace MentoriaDevSTi3.Data.Migrations
 #pragma warning disable 612, 618
             modelBuilder
                 .HasAnnotation("Relational:MaxIdentifierLength", 64)
-                .HasAnnotation("ProductVersion", "5.0.7");
+                .HasAnnotation("ProductVersion", "5.0.8");
 
             modelBuilder.Entity("MentoriaDevSTi3.data.Entidades.Cliente", b =>
                 {
@@ -25,25 +25,22 @@ namespace MentoriaDevSTi3.Data.Migrations
 
                     b.Property<string>("Cep")
                         .IsRequired()
-                        .HasColumnType("varchar(8");
+                        .HasColumnType("varchar(8)");
 
                     b.Property<string>("Cidade")
                         .IsRequired()
-                        .HasColumnType("varchar(100");
+                        .HasColumnType("varchar(100)");
 
                     b.Property<DateTime>("DataNascimento")
                         .HasColumnType("datetime");
 
                     b.Property<string>("Endereco")
                         .IsRequired()
-                        .HasColumnType("varchar(250");
-
-                    b.Property<string>("Estado")
-                        .HasColumnType("text");
+                        .HasColumnType("varchar(250)");
 
                     b.Property<string>("Nome")
                         .IsRequired()
-                        .HasColumnType("varchar(250");
+                        .HasColumnType("varchar(250)");
 
                     b.HasKey("Id");
 
@@ -88,10 +85,10 @@ namespace MentoriaDevSTi3.Data.Migrations
 
                     b.Property<string>("FormaPagamento")
                         .IsRequired()
-                        .HasColumnType("varchar(100");
+                        .HasColumnType("varchar(100)");
 
                     b.Property<decimal>("Valor")
-                        .HasColumnType("varchar(250");
+                        .HasColumnType("decimal(15,2)");
 
                     b.HasKey("Id");
 

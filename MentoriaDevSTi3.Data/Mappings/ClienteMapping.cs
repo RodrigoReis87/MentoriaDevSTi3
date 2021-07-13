@@ -11,10 +11,10 @@ namespace MentoriaDevSTi3.Data.Mappings
         {
             builder.HasKey(p => p.Id);
 
-            builder.Property(p => p.Nome).HasColumnType("varchar(250").IsRequired();
-            builder.Property(p => p.Cep).HasColumnType("varchar(8").IsRequired();
-            builder.Property(p => p.Endereco).HasColumnType("varchar(250").IsRequired();
-            builder.Property(p => p.Cidade).HasColumnType("varchar(100").IsRequired();
+            builder.Property(p => p.Nome).HasColumnType("varchar(250)").IsRequired();
+            builder.Property(p => p.Cep).HasColumnType("varchar(8)").IsRequired();
+            builder.Property(p => p.Endereco).HasColumnType("varchar(250)").IsRequired();
+            builder.Property(p => p.Cidade).HasColumnType("varchar(100)").IsRequired();
         }
     }
 }

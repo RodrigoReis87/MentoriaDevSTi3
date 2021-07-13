@@ -9,15 +9,15 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace MentoriaDevSTi3.Data.Migrations
 {
     [DbContext(typeof(MentoriaDevSTi3Context))]
-    [Migration("20210710122227_Adicionar_Cliente")]
-    partial class Adicionar_Cliente
+    [Migration("20210713222706_Atualizar_tabelas")]
+    partial class Atualizar_tabelas
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
                 .HasAnnotation("Relational:MaxIdentifierLength", 64)
-                .HasAnnotation("ProductVersion", "5.0.7");
+                .HasAnnotation("ProductVersion", "5.0.8");
 
             modelBuilder.Entity("MentoriaDevSTi3.data.Entidades.Cliente", b =>
                 {
@@ -27,25 +27,22 @@ namespace MentoriaDevSTi3.Data.Migrations
 
                     b.Property<string>("Cep")
                         .IsRequired()
-                        .HasColumnType("varchar(8");
+                        .HasColumnType("varchar(8)");
 
                     b.Property<string>("Cidade")
                         .IsRequired()
-                        .HasColumnType("varchar(100");
+                        .HasColumnType("varchar(100)");
 
                     b.Property<DateTime>("DataNascimento")
                         .HasColumnType("datetime");
 
                     b.Property<string>("Endereco")
                         .IsRequired()
-                        .HasColumnType("varchar(250");
-
-                    b.Property<string>("Estado")
-                        .HasColumnType("text");
+                        .HasColumnType("varchar(250)");
 
                     b.Property<string>("Nome")
                         .IsRequired()
-                        .HasColumnType("varchar(250");
+                        .HasColumnType("varchar(250)");
 
                     b.HasKey("Id");
 
@@ -68,7 +65,7 @@ namespace MentoriaDevSTi3.Data.Migrations
                         .HasColumnType("int");
 
                     b.Property<decimal>("Valor")
-                        .HasColumnType("decimal(18, 2)");
+                        .HasColumnType("decimal(15,2)");
 
                     b.HasKey("Id");
 
@@ -89,10 +86,11 @@ namespace MentoriaDevSTi3.Data.Migrations
                         .HasColumnType("bigint");
 
                     b.Property<string>("FormaPagamento")
-                        .HasColumnType("text");
+                        .IsRequired()
+                        .HasColumnType("varchar(100)");
 
                     b.Property<decimal>("Valor")
-                        .HasColumnType("decimal(18, 2)");
+                        .HasColumnType("decimal(15,2)");
 
                     b.HasKey("Id");
 
@@ -108,10 +106,11 @@ namespace MentoriaDevSTi3.Data.Migrations
                         .HasColumnType("bigint");
 
                     b.Property<string>("Nome")
-                        .HasColumnType("text");
+                        .IsRequired()
+                        .HasColumnType("varchar(250)");
 
                     b.Property<decimal>("Valor")
-                        .HasColumnType("decimal(18, 2)");
+                        .HasColumnType("decimal(15,2)");
 
                     b.HasKey("Id");
 
@@ -120,7 +119,7 @@ namespace MentoriaDevSTi3.Data.Migrations
 
             modelBuilder.Entity("MentoriaDevSTi3.data.Entidades.ItemPedido", b =>
                 {
-                    b.HasOne("MentoriaDevSTi3.data.Entidades.Pedido", "Pedidos")
+                    b.HasOne("MentoriaDevSTi3.data.Entidades.Pedido", "Pedido")
                         .WithMany("ItensPedido")
                         .HasForeignKey("PedidoId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -132,7 +131,7 @@ namespace MentoriaDevSTi3.Data.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.Navigation("Pedidos");
+                    b.Navigation("Pedido");
 
                     b.Navigation("Produtos");
                 });
