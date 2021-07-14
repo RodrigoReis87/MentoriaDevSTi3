@@ -94,5 +94,10 @@ namespace Mentoria_STi3.View.UserControls
             }
             return true;
         }
+
+        private void TextBox_TextChanged(object sender, TextChangedEventArgs e)
+        {
+
+        }
     }
 }

@@ -1,4 +1,5 @@
 ﻿using Mentoria_STi3.ViewModel;
+using MentoriaDevSTi3.Business;
 using System.Collections.ObjectModel;
 using System.Text.RegularExpressions;
 using System.Windows;
@@ -19,7 +20,7 @@ namespace Mentoria_STi3.View.UserControls
 
             DataContext = UcProdutoVM;
 
-            UcProdutoVM.ProdutosAdicionados = new ObservableCollection<ProdutoViewModel>();
+            CarregarRegistros();
         }
 
         private void BtnAdicionar_Click(object sender, RoutedEventArgs e)
@@ -48,7 +49,9 @@ namespace Mentoria_STi3.View.UserControls
 
         private void BtnRemover_Click(object sender, RoutedEventArgs e)
         {
+            var produto = (sender as Button).Tag as ProdutoViewModel;
 
+            RemoverProduto(produto.Id);
         }
 
         private void TxtValor_PreviewTextInput(object sender, System.Windows.Input.TextCompositionEventArgs e)
@@ -59,10 +62,16 @@ namespace Mentoria_STi3.View.UserControls
 
         private void PreencherCampos(ProdutoViewModel produto)
         {
+            UcProdutoVM.Id = produto.Id;
             UcProdutoVM.Nome = produto.Nome;
             UcProdutoVM.Valor = produto.Valor;
 
             UcProdutoVM.Alteracao = true;
+        }
+
+        private void CarregarRegistros()
+        {
+            UcProdutoVM.ProdutosAdicionados = new ObservableCollection<ProdutoViewModel>(new ProdutoBusiness().Listar());
         }
 
         private void AdicionarProduto()
@@ -72,26 +81,45 @@ namespace Mentoria_STi3.View.UserControls
                 Nome = UcProdutoVM.Nome,
                 Valor = UcProdutoVM.Valor
             };
-            UcProdutoVM.ProdutosAdicionados.Add(novoProduto);
+            new ProdutoBusiness().Adicionar(novoProduto);
+
+            CarregarRegistros();
 
         }
 
         private void AlterarProduto()
         {
-            //será desenvolvido na aula de banco de dados.
+            var produtoAlteracao = new ProdutoViewModel
+            {
+                Id = UcProdutoVM.Id,
+                Nome = UcProdutoVM.Nome,
+                Valor = UcProdutoVM.Valor
+            };
+            new ProdutoBusiness().Alterar(produtoAlteracao);
+
+            CarregarRegistros();
+        }
+
+        private void RemoverProduto(long id)
+        {
+            var resultado = MessageBox.Show("Deseja realmente remover o produto ?", "Atenção", MessageBoxButton.YesNo, MessageBoxImage.Warning);
+
+            if(resultado == MessageBoxResult.Yes)
+            {
+                new ProdutoBusiness().Remover(id);
+                CarregarRegistros();
+                LimparCampos();
+
+            }
         }
 
         private void LimparCampos()
         {
+            UcProdutoVM.Id = 0;
             UcProdutoVM.Nome = "";
             UcProdutoVM.Valor = 0;
 
             UcProdutoVM.Alteracao = false;
-        }
-
-        private void RemoverProdutos()
-        {
-
         }
 
         private bool ValidarProduto()
