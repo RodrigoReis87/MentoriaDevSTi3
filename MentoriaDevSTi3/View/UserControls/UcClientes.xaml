@@ -112,7 +112,7 @@
                             </Button>
 
                             <Button x:Name="BtnRemover"
-                                    Width="100" Content="Remover" Margin="10,0,0,0"
+                                    Width="100" Content="Remover" Tag="{Binding}" Margin="10,0,0,0"
                                     Style="{StaticResource BtnArredondado}" Background="DarkRed" Foreground="White"
                                     Click="BtnRemover_Click"/>
 

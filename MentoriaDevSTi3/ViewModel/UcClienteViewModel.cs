@@ -5,8 +5,18 @@ namespace Mentoria_STi3.ViewModel
 {
     public class UcClienteViewModel : PropertyChange
     {
-        private string _nome;
+        private long _id;
+        public long Id
+        {
+            get => _id;
+            set
+            {
+                _id = value;
+                OnPropertyChanged(nameof(Id));
+            }
+        }
 
+        private string _nome;
         public string Nome
         {
             get => _nome;
@@ -18,7 +28,6 @@ namespace Mentoria_STi3.ViewModel
         }
 
         private DateTime _datanascimento;
-
         public DateTime DataNascimento
         {
             get => _datanascimento;
@@ -29,9 +38,8 @@ namespace Mentoria_STi3.ViewModel
             }
         }
 
-        private int _cep;
-
-        public int Cep
+        private string _cep;
+        public string Cep
         {
             get => _cep;
             set
@@ -42,7 +50,6 @@ namespace Mentoria_STi3.ViewModel
         }
 
         private string _endereco;
-
         public string Endereco
         {
             get => _endereco;
@@ -60,7 +67,7 @@ namespace Mentoria_STi3.ViewModel
             get => _cidade;
             set
             {
-                _nome = value;
+                _cidade = value;
                 OnPropertyChanged(nameof(Cidade));
             }
         }

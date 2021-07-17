@@ -1,5 +1,6 @@
 ﻿using Mentoria_STi3.ViewModel;
 using MentoriaDevSTi3.data.Context;
+using MentoriaDevSTi3.data.Entidades;
 using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
 using System.Linq;
@@ -17,7 +18,7 @@ namespace MentoriaDevSTi3.Business
 
         public void Adicionar(ProdutoViewModel produtoViewModel)
         {
-            _context.Produtos.Add(new data.Entidades.Produto
+            _context.Produtos.Add(new Produto
             {
                 Nome = produtoViewModel.Nome,
                 Valor = produtoViewModel.Valor

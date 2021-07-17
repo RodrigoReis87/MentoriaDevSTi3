@@ -1,4 +1,5 @@
 ﻿using Mentoria_STi3.ViewModel;
+using MentoriaDevSTi3.Business;
 using System.Collections.ObjectModel;
 using System.Windows;
 using System.Windows.Controls;
@@ -16,8 +17,10 @@ namespace Mentoria_STi3.View.UserControls
             InitializeComponent();
 
             DataContext = UcClienteVM;
-            UcClienteVM.ClientesAdicionados = new ObservableCollection<ClienteViewModel>();
+
             UcClienteVM.DataNascimento = new System.DateTime(1980, 1, 1);
+
+            CarregarRegistros();
         }
 
         private void BtnAdicionar_Click(object sender, RoutedEventArgs e)
@@ -43,7 +46,9 @@ namespace Mentoria_STi3.View.UserControls
 
         private void BtnRemover_Click(object sender, RoutedEventArgs e)
         {
+            var cliente = (sender as Button).Tag as ClienteViewModel;
 
+            RemoverCliente(cliente.Id);
         }
 
         private void PreencherCampos(ClienteViewModel cliente)
@@ -54,6 +59,11 @@ namespace Mentoria_STi3.View.UserControls
             UcClienteVM.Endereco = cliente.Endereco;
             UcClienteVM.Cidade = cliente.Cidade;
             UcClienteVM.Alteracao = true;
+        }
+
+        private void CarregarRegistros()
+        {
+            UcClienteVM.ClientesAdicionados = new ObservableCollection<ClienteViewModel>(new ClienteBusiness().Listar());
         }
 
         private void AdicionarCliente()
@@ -67,19 +77,44 @@ namespace Mentoria_STi3.View.UserControls
                 Endereco = UcClienteVM.Endereco,
                 Cidade = UcClienteVM.Cidade
             };
-            UcClienteVM.ClientesAdicionados.Add(novoCliente);
+            new ClienteBusiness().Adicionar(novoCliente);
+
+            CarregarRegistros();
         }
 
         private void AlterarCliente()
         {
-            //será desenvolvido na aula de banco de dados
+            var clienteAlteracao = new ClienteViewModel
+            {
+                Id = UcClienteVM.Id,
+                Nome = UcClienteVM.Nome,
+                DataNascimento = UcClienteVM.DataNascimento,
+                Cep = UcClienteVM.Cep,
+                Endereco = UcClienteVM.Endereco,
+                Cidade = UcClienteVM.Cidade
+            };
+            new ClienteBusiness().Alterar(clienteAlteracao);
+
+            CarregarRegistros();
+        }
+
+        private void RemoverCliente(long id)
+        {
+            var resultado = MessageBox.Show("Tem certeza que deseja remover o Cliente?", "Atenção", MessageBoxButton.YesNo, MessageBoxImage.Warning);
+            
+            if(resultado == MessageBoxResult.Yes)
+            {
+                new ClienteBusiness().Remover(id);
+                CarregarRegistros();
+                LimparCampos();
+            }
         }
 
         private void LimparCampos()
         {
             UcClienteVM.Nome = "";
             UcClienteVM.DataNascimento = new System.DateTime(1990, 1, 1);
-            UcClienteVM.Cep = 0;
+            UcClienteVM.Cep = "";
             UcClienteVM.Endereco = "";
             UcClienteVM.Cidade = "";
             UcClienteVM.Alteracao = false;
@@ -95,9 +130,5 @@ namespace Mentoria_STi3.View.UserControls
             return true;
         }
 
-        private void TextBox_TextChanged(object sender, TextChangedEventArgs e)
-        {
-
-        }
     }
 }

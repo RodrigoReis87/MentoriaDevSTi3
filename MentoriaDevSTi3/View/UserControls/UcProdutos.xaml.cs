@@ -104,7 +104,7 @@ namespace Mentoria_STi3.View.UserControls
         {
             var resultado = MessageBox.Show("Deseja realmente remover o produto ?", "Atenção", MessageBoxButton.YesNo, MessageBoxImage.Warning);
 
-            if(resultado == MessageBoxResult.Yes)
+            if (resultado == MessageBoxResult.Yes)
             {
                 new ProdutoBusiness().Remover(id);
                 CarregarRegistros();
