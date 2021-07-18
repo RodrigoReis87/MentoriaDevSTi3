@@ -29,7 +29,7 @@ namespace MentoriaDevSTi3.Business
 
         public void Alterar(ProdutoViewModel produtoViewModel)
         {
-            var produto = _context.Produtos.Find(produtoViewModel.Id);
+            var produto = _context.Produtos.First(x => x.Id == produtoViewModel.Id);
 
             produto.Nome = produtoViewModel.Nome;
             produto.Valor = produtoViewModel.Valor;

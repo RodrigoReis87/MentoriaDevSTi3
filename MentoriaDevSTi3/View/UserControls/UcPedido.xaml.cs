@@ -1,4 +1,6 @@
 ﻿using Mentoria_STi3.ViewModel;
+using MentoriaDevSTi3.Business;
+using MentoriaDevSTi3.ViewModel;
 using System;
 using System.Collections.ObjectModel;
 using System.Linq;
@@ -33,14 +35,11 @@ namespace Mentoria_STi3.View.UserControls
         {
             AdicionarItem();
 
-            LimparCampos();
         }
 
         private void BtnFinalizarPedido_Click(object sender, RoutedEventArgs e)
         {
-            MessageBox.Show("Pedido finalizado! Valor total R$" + UcPedidoVM.ValorTotalPedido,
-                "Pedido Finalizado", MessageBoxButton.OK, MessageBoxImage.Exclamation);
-            UcPedidoVM.ValorTotalPedido = 0;
+            FinalizarPedido();   
             InicializarOperacao();
         }
 
@@ -48,18 +47,10 @@ namespace Mentoria_STi3.View.UserControls
         {
             DataContext = UcPedidoVM;
 
-            UcPedidoVM.ListaClientes = new ObservableCollection<ClienteViewModel>
-            {
-                new ClienteViewModel{Nome = "Cliente1"},
-                new ClienteViewModel { Nome = "Cliente2"}
-            };
+            UcPedidoVM.ListaClientes = new ObservableCollection<ClienteViewModel>(new ClienteBusiness().Listar());
 
-            UcPedidoVM.ListaProdutos = new ObservableCollection<ProdutoViewModel>
-            {
-                new ProdutoViewModel{Nome = "Produto 1", Valor = 10},
-                new ProdutoViewModel{Nome = "Produto 2", Valor = 20}
-            };
-
+            UcPedidoVM.ListaProdutos = new ObservableCollection<ProdutoViewModel>(new ProdutoBusiness().Listar());
+            
             UcPedidoVM.ListaPagamentos = new ObservableCollection<string>
             {
                 "Dinheiro",
@@ -83,21 +74,58 @@ namespace Mentoria_STi3.View.UserControls
                 Nome = produtoSelecionado.Nome,
                 Quantidade = UcPedidoVM.Quantidade,
                 ValorUnit = UcPedidoVM.ValorUnit,
-                ValorTotalItem = UcPedidoVM.Quantidade * UcPedidoVM.ValorUnit
+                ValorTotalItem = UcPedidoVM.Quantidade * UcPedidoVM.ValorUnit,
+                ProdutoId = produtoSelecionado.Id
             };
 
             UcPedidoVM.ItensAdicionados.Add(itemVM);
             UcPedidoVM.ValorTotalPedido = UcPedidoVM.ItensAdicionados.Sum(i => i.ValorTotalItem);
+
+            LimparCamposProduto();
         }
 
-        private void LimparCampos()
+        private void LimparCamposProduto()
         {
             UcPedidoVM.ValorUnit = 0;
-            CmbCliente.Text = "";
-            CmbFormaPagto.Text = "";
-            CmbProduto.Text = "";
+            CmbProduto.SelectedItem = null;
             UcPedidoVM.Quantidade = 1;
 
+        }
+
+        private void LimparTodosCampos()
+        {
+            UcPedidoVM.ItensAdicionados = new ObservableCollection<UcPedidoItemViewModel>();
+            UcPedidoVM.ValorTotalPedido = 0;
+            CmbCliente.SelectedItem = null;
+            CmbFormaPagto.SelectedItem = null;
+
+            LimparCamposProduto();
+        }
+
+        private void FinalizarPedido()
+        {
+            var clienteSelecionado = CmbCliente.SelectedItem as ClienteViewModel;
+            var FormaPagamentoSelecionada = CmbFormaPagto.SelectedItem as string;
+            var pedidoViewModel = new PedidoViewModel
+            {
+                ClienteId = clienteSelecionado.Id,
+                FormaPagamento = FormaPagamentoSelecionada,
+                Valor = UcPedidoVM.ValorTotalPedido,
+                ItensPedido = UcPedidoVM.ItensAdicionados.Select(s => new ItemPedidoViewModel
+                {
+                    ProdutoId = s.ProdutoId,
+                    Quantidade = s.Quantidade,
+                    Valor = s.ValorTotalItem
+                }).ToList()
+            };
+
+            new PedidoBusiness().Adicionar(pedidoViewModel);
+
+            MessageBox.Show("Pedido finalizado! Valor total R$" + UcPedidoVM.ValorTotalPedido,
+                "Pedido Finalizado", MessageBoxButton.OK, MessageBoxImage.Information);
+            UcPedidoVM.ValorTotalPedido = 0;
+
+            LimparTodosCampos();
         }
 
     }

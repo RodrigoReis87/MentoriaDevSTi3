@@ -101,8 +101,8 @@ namespace Mentoria_STi3.View.UserControls
         private void RemoverCliente(long id)
         {
             var resultado = MessageBox.Show("Tem certeza que deseja remover o Cliente?", "Atenção", MessageBoxButton.YesNo, MessageBoxImage.Warning);
-            
-            if(resultado == MessageBoxResult.Yes)
+
+            if (resultado == MessageBoxResult.Yes)
             {
                 new ClienteBusiness().Remover(id);
                 CarregarRegistros();
