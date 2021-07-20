@@ -1,6 +1,9 @@
 ﻿using Mentoria_STi3.ViewModel;
 using MentoriaDevSTi3.Business;
+using MentoriaDevSTi3.ViewModel;
+using Newtonsoft.Json;
 using System.Collections.ObjectModel;
+using System.Net.Http;
 using System.Windows;
 using System.Windows.Controls;
 
@@ -49,6 +52,11 @@ namespace Mentoria_STi3.View.UserControls
             var cliente = (sender as Button).Tag as ClienteViewModel;
 
             RemoverCliente(cliente.Id);
+        }
+
+        private void TxtCep_LostFocus(object sender, RoutedEventArgs e)
+        {
+            BuscarCep((sender as TextBox).Text);
         }
 
         private void PreencherCampos(ClienteViewModel cliente)
@@ -120,6 +128,14 @@ namespace Mentoria_STi3.View.UserControls
             UcClienteVM.Alteracao = false;
         }
 
+        private void LimparCamposEndereco()
+        {
+            UcClienteVM.Endereco = "";
+            UcClienteVM.Endereco = "";
+            UcClienteVM.Cep = "";
+
+        }
+
         private bool ValidarCliente()
         {
             if (string.IsNullOrEmpty(UcClienteVM.Nome))
@@ -130,5 +146,38 @@ namespace Mentoria_STi3.View.UserControls
             return true;
         }
 
+        private void BuscarCep(string cep)  
+        {
+            var client = new HttpClient
+            {
+                BaseAddress = new System.Uri("https://viacep.com.br/")
+            };
+
+            var response = client.GetAsync($"ws/{cep}/json").Result;
+
+            if (response.IsSuccessStatusCode)
+            {
+                var enderecoCompleto = response.Content.ReadAsStringAsync().Result;
+                var obj = JsonConvert.DeserializeObject<EnderecoViewModel>(enderecoCompleto);
+
+                if (obj.Erro)
+                {
+                    MessageBox.Show("O CEP digitado não existe!", "Atenção", MessageBoxButton.OK, MessageBoxImage.Warning);
+                    LimparCamposEndereco();
+                }
+                else
+                {
+                    UcClienteVM.Endereco = $"{obj.Logradouro} - { obj.Bairro}";
+                    UcClienteVM.Cidade = $"{obj.Localidade}/{obj.Uf}";
+                }
+            }
+            else
+            {
+                MessageBox.Show("O CEP digitado é inválido!", "Atenção", MessageBoxButton.OK, MessageBoxImage.Warning);
+                LimparCamposEndereco();
+            }
+        }
+
+        
     }
 }

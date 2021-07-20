@@ -4,7 +4,8 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Mentoria_STi3.View"
-        xmlns:UserControls="clr-namespace:Mentoria_STi3.View.UserControls" x:Class="Mentoria_STi3.View.Principal"
+        xmlns:UserControls="clr-namespace:Mentoria_STi3.View.UserControls" 
+        x:Class="Mentoria_STi3.View.Principal"
         mc:Ignorable="d"
         Title="Mentoria Dev" Height="690" Width="1024" WindowStartupLocation="CenterScreen" WindowState="Normal">
     <Grid>
